@@ -18,7 +18,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTxvResult;
-    private Button mBtnBaidu;
+    private Button mBtnCancel1;
+    private Button mBtnCancel2;
     //声明ViewPager
     private ViewPager mViewpager;
     //声明ViewPager的适配器
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
         initEvents();
     }
     private void initEvents() {
-        mBtnBaidu.setOnClickListener(this.mOnClickListener);
+        mBtnCancel1.setOnClickListener(this.mOnClickListener);
+        mBtnCancel2.setOnClickListener(this.mOnClickListener);
         txt_tab1.setOnClickListener(mOnClickListener);
         txt_tab2.setOnClickListener(mOnClickListener);
         //添加ViewPager的切换Tab的监听事件
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 int currentItem = mViewpager.getCurrentItem();
                 //将所以的tab设置成灰色
                 resetTabColor();
+                mTxvResult.setText("");
                 switch (currentItem) {
                     case 0:
                         setTabColor(txt_tab1);
@@ -84,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
         mTabs.add(tab1);
         mTabs.add(tab2);
         mTxvResult = (TextView) tab1.findViewById(R.id.txv_result);
-        mBtnBaidu = (Button) tab1.findViewById(R.id.btn_cancel1);
+        mBtnCancel1 = (Button) tab1.findViewById(R.id.btn_cancel1);
+        mBtnCancel2 = (Button) tab1.findViewById(R.id.btn_cancel2);
     }
 
     private void initAdapter() {
@@ -124,9 +128,11 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_cancel1:
+                    mTxvResult.setText("");
                     new HttpTask("https://www.baidu.com/").execute();
                     break;
                 case R.id.btn_cancel2:
+                    mTxvResult.setText("");
                     break;
                 case R.id.tab1:
                     resetTabColor();
@@ -141,18 +147,18 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-    private int txtColor1 = Color.parseColor("#949494");
+    private int txtColor1 = Color.parseColor("#4D4D4D");
     private int txtColor2 = Color.parseColor("#CCCCCC");
 
     private void setTabColor(TextView tab) {
-        tab.setBackgroundColor(Color.parseColor(txtColor2));
-        tab.setTextColor(Color.parseColor("#949494"));
+        tab.setBackgroundColor(txtColor2);
+        tab.setTextColor(txtColor1);
     }
     private void resetTabColor() {
-        txt_tab1.setBackgroundColor(Color.parseColor("#949494"));
-        txt_tab2.setBackgroundColor(Color.parseColor("#949494"));
-        txt_tab1.setTextColor(Color.parseColor("#CCCCCC"));
-        txt_tab2.setTextColor(Color.parseColor("#CCCCCC"));
+        txt_tab1.setBackgroundColor(txtColor1);
+        txt_tab2.setBackgroundColor(txtColor1);
+        txt_tab1.setTextColor(txtColor2);
+        txt_tab2.setTextColor(txtColor2);
     }
     private class HttpTask extends AsyncTask {
         String mUrl;
